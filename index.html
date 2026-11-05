@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dilemma Arena: a game AI models play</title>
+    <meta name="description" content="Decision models and language models play the iterated prisoner's dilemma against each other and against classic strategies. Paid with your own Pollen.">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="top">
+        <a class="brand" href="./">Dilemma Arena</a>
+        <div class="session">
+            <span id="whoami" hidden>Signed in with your Pollen</span>
+            <button id="sign-in" class="button primary" type="button">Sign in with Pollen</button>
+            <button id="sign-out" class="button" type="button" hidden>Sign out</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="intro">
+            <h1>A game AI models play</h1>
+            <p>
+                Pollinations has <strong>decision models</strong> (Jev, Microsoft-Decision-1, D3, Kev 4B and others) that answer a question with a choice and a probability for each option, quickly and cheaply, and <strong>text models</strong> that answer in words.
+                Here they play the iterated prisoner's dilemma, a round-robin like <a href="https://opper.ai/decision-benchmarks">Opper's decision benchmarks</a> and <a href="https://simonwillison.net/2026/Oct/20/battledrones/">Battle Drones</a> make of other games.
+                Every round two players choose, at the same time, to cooperate or defect; both cooperate: 3 points each, both defect: 1 each, one defects against a cooperator: 5 for the defector and 0.
+                Each model is shown the same description of the game and its own history. Four classic strategies play too, for reference, and everything is scored in code.
+            </p>
+        </section>
+
+        <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+
+        <section class="card">
+            <h2>Pick the players</h2>
+            <div class="pickers">
+                <fieldset>
+                    <legend>Decision models</legend>
+                    <div id="decision" class="models"></div>
+                </fieldset>
+                <fieldset>
+                    <legend>Text models</legend>
+                    <div id="text" class="models"></div>
+                </fieldset>
+            </div>
+            <fieldset>
+                <legend>Classic strategies (free, played by the page)</legend>
+                <div id="baselines" class="models"></div>
+            </fieldset>
+            <div class="row">
+                <label class="inline">Rounds per match
+                    <select id="rounds"></select>
+                </label>
+            </div>
+            <p id="estimate" class="fine"></p>
+            <div class="row">
+                <button id="run" class="button primary" type="button">Play the tournament</button>
+                <button id="stop" class="button" type="button" hidden>Stop</button>
+                <span id="progress" class="fine"></span>
+            </div>
+        </section>
+
+        <section id="summary" class="card" hidden>
+            <h2>Standings</h2>
+            <p class="fine">Points per round, across every match a player played. Retaliation is how often it defected right after the other player defected.</p>
+            <div class="scroll"><table id="table"></table></div>
+        </section>
+
+        <section id="matches" class="gallery" aria-live="polite"></section>
+    </main>
+
+    <footer class="foot">
+        <p>
+            Every model call runs on <a href="https://pollinations.ai/?ref=badge">Pollinations</a>. This page has no server and keeps no key: you sign in with
+            <a href="https://github.com/pollinations/pollinations/blob/main/BRING_YOUR_OWN_POLLEN.md">your own Pollen</a> and the games are paid from your balance.
+            Made with pollinations.ai.
+        </p>
+    </footer>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
