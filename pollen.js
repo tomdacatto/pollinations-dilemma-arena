@@ -124,22 +124,6 @@ export async function chat(model, messages, { signal, seed, temperature } = {}) 
     throw new PollenError(`${model}: ${detail}`, res.status);
 }
 
-/** Embeddings of `texts` with the visitor's key, in order. */
-export async function embed(model, texts, { signal } = {}) {
-    const session = getSession();
-    if (!session) throw new PollenError("Sign in with your Pollen to continue.", 401);
-    const res = await fetch(`${GEN}/v1/embeddings`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${session.key}` },
-        body: JSON.stringify({ model, input: texts }),
-        signal,
-    });
-    if (!res.ok) throw new PollenError(`${model}: embeddings answered ${res.status}.`, res.status);
-    const body = await res.json();
-    if (body.data?.length !== texts.length) throw new PollenError(`${model}: embeddings came back incomplete.`, 502);
-    return body.data.sort((a, b) => a.index - b.index).map((item) => item.embedding);
-}
-
 /** One typed decision from a decision model with the visitor's key: `request` is {state, questions}. */
 export async function decide(model, request, { signal } = {}) {
     const session = getSession();

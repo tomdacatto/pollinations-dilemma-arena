@@ -19,7 +19,7 @@ Pollinations has decision models (Jev, Microsoft-Decision-1, D3, Kev 4B and othe
 
 Signed in with my own Pollen on the live code: decision models `typesafe/jev-1.14`, `microsoft/microsoft-decision-1` and `vllm-sr/d3`, text model `openai/gpt-5.4-nano`, and tit for tat and always defect: 14 matches of 8 rounds.
 
-| Player | Kind | Points per round | Cooperates | Opens nicely | Defected on a cooperator | Retaliates after a defection |
+| Player | Kind | Points per round | Cooperates | Opens nicely | Exploited (rounds it defected on a cooperator) | Retaliates |
 |---|---|---|---|---|---|---|
 | d3 | decision | 2.70 | 73% | 5 of 5 | 4 rounds | 8 of 8 |
 | Tit for tat | classic | 2.56 | 84% | 4 of 4 | 2 rounds | 5 of 5 |
@@ -28,17 +28,18 @@ Signed in with my own Pollen on the live code: decision models `typesafe/jev-1.1
 | gpt-5.4-nano | text | 1.73 | 48% | 3 of 5 | 6 rounds | 15 of 22 (68%) |
 | Always defect | classic | 1.50 | 0% | 0 of 4 | 4 rounds | 24 of 24 |
 
-- The three decision models open by cooperating in every match, retaliate every time they are defected on, and finished within 0.3 points per round of each other, d3 above tit for tat.
-- `gpt-5.4-nano` did worse than all of them: it opened with a defection in 2 of 5 matches and answered a betrayal with a defection only 68% of the time, so it was exploited and also failed to build cooperation.
-- Always defect scored lowest (1.50), because every decision model retaliated after the first round; it scored 12 points against each opponent that retaliated, to their 7.
-- Against tit for tat and against each other, the decision models defected only in the last round of a match (matches are announced as 8 rounds), the end-game defection that game theory predicts.
-- It is one tournament of 8 rounds, so differences of a few tenths of a point are noise. The app is for rerunning it with other models and longer matches.
+- The three decision models open by cooperating in every match and finished within 0.3 points per round of each other. d3's lead comes from one thing: it defected in the last round (of 8) against microsoft-decision-1, jev and tit for tat, three times +2 points. microsoft-decision-1 and jev cooperated through all 8 rounds in those matches.
+- Against `gpt-5.4-nano`, which opened with a defection, microsoft-decision-1 and jev punished it from round 3 to the end and never forgave, like a grim trigger, even though nano kept cooperating; d3 retaliated once and went back to cooperating. Those punishment rounds count under "Exploited".
+- `gpt-5.4-nano` opened with a defection in 2 of 5 matches and answered a defection with a defection 68% of the time. It still beat tit for tat 18 to 13, because tit for tat copied its defections.
+- Always defect scored lowest (1.50): it got 12 points against each opponent that retaliated, to their 7, but nothing from cooperating ones.
+- It is one tournament of 8 rounds, so differences of a few tenths of a point may not repeat. The app is for rerunning it with other models and longer matches.
 
 ![Standings and the matches](docs/results.png)
 
 ## Not verified
 
 - Only three of the decision models were run, one text model, one tournament of 8 rounds. Jev, D3 and Microsoft-Decision-1 were not compared with a larger sample; Kev 4B, Liquid D1, the Perplexity decider and GPT-6 Luna Decisions are in the list but were only probed with a single move.
+- Decision requests carry no `seed`, and identical requests may be served from cache, so the first round of different matches (the same request) may be one sample, not several. Text-model moves carry a random seed.
 - `respan/span-01-lite` is not offered: the decisions endpoint only accepts plain-string yes/no questions for it.
 - Phones and browsers other than desktop Chrome. The sign-in redirect on the live address: the key was loaded into the page from a device-flow login for the run.
 

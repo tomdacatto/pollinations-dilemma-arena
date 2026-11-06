@@ -174,13 +174,8 @@ $("#stop").onclick = () => state.controller?.abort();
 for (const n of ROUND_CHOICES)
     $("#rounds").append(Object.assign(el("option", "", String(n)), { value: n, selected: n === DEFAULT_ROUNDS }));
 $("#rounds").onchange = estimate;
-const strategies = Object.entries(BASELINES).map(([name, { title }]) => ({
-    name,
-    title,
-    pricing: { completionTextTokens: 0 },
-}));
 $("#baselines").replaceChildren(
-    ...strategies.map(({ name, title }) => {
+    ...Object.entries(BASELINES).map(([name, { title }]) => {
         const label2 = el("label");
         label2.append(
             Object.assign(document.createElement("input"), {

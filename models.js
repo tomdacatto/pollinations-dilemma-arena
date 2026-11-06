@@ -12,7 +12,6 @@ export async function loadModels() {
             name: model.name,
             title: model.title ?? model.name,
             pricing: model.pricing,
-            vision: Boolean(model.input_modalities?.includes("image")),
             paidOnly: Boolean(model.paid_only),
             decision: Boolean(model.supported_endpoints?.includes("/alpha/decisions")),
         }))
