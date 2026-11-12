@@ -7,7 +7,7 @@ export const EXPIRY_DAYS = 1;
 export const CONCURRENCY = 6;
 
 // Players ticked at the start, when the live list has them.
-export const DEFAULT_DECISION_MODELS = ["typesafe/jev-1.14", "microsoft/microsoft-decision-1", "vllm-sr/d3"];
+export const DEFAULT_DECISION_MODELS = ["microsoft/microsoft-decision-1", "vllm-sr/d3"];
 export const DEFAULT_TEXT_MODELS = ["openai/gpt-5.4-nano"];
 export const DEFAULT_BASELINES = ["tit-for-tat", "always-defect"];
 

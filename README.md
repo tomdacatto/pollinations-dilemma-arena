@@ -38,6 +38,7 @@ Signed in with my own Pollen on the live code: decision models `typesafe/jev-1.1
 
 ## Not verified
 
+- The default players are free for every visitor: `typesafe/jev-1.14` is paid-only (`paid_only` on `gen.pollinations.ai/v1/models`, checked 2026-11-12), so it is in the list, marked "paid", but not ticked. The run above included it; the default set is `microsoft/microsoft-decision-1`, `vllm-sr/d3`, `openai/gpt-5.4-nano` and the two strategies.
 - Only three of the decision models were run, one text model, one tournament of 8 rounds. Jev, D3 and Microsoft-Decision-1 were not compared with a larger sample; Kev 4B, Liquid D1, the Perplexity decider and GPT-6 Luna Decisions are in the list but were only probed with a single move.
 - Decision requests carry no `seed`, and identical requests may be served from cache, so the first round of different matches (the same request) may be one sample, not several. Text-model moves carry a random seed.
 - `respan/span-01-lite` is not offered: the decisions endpoint only accepts plain-string yes/no questions for it.
