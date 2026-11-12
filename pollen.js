@@ -2,7 +2,7 @@
 // and is sent back here. The key comes back in the URL fragment, which the browser never
 // sends to a server, and is kept in sessionStorage for this tab only.
 // Flow reference: https://github.com/pollinations/pollinations/blob/main/BRING_YOUR_OWN_POLLEN.md
-import { BUDGET, EXPIRY_DAYS } from "./config.js";
+import { APP_KEY, BUDGET, EXPIRY_DAYS } from "./config.js";
 
 const ENTER = "https://enter.pollinations.ai";
 const GEN = "https://gen.pollinations.ai";
@@ -23,13 +23,14 @@ export function appUrl(href = location.href) {
     return new URL("./", href).href;
 }
 
-export function buildAuthorizeUrl({ redirectUri, state }) {
+export function buildAuthorizeUrl({ redirectUri, state, appKey = APP_KEY }) {
     const params = new URLSearchParams({
         redirect_uri: redirectUri,
         state,
         budget: String(BUDGET),
         expiry: String(EXPIRY_DAYS),
     });
+    if (appKey) params.set("client_id", appKey);
     return `${ENTER}/authorize?${params}`;
 }
 

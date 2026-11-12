@@ -2,13 +2,17 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { buildAuthorizeUrl, readReturn } from "./pollen.js";
 
-test("the sign-in link asks for a small budget and one day, and no client_id", () => {
-    const url = new URL(buildAuthorizeUrl({ redirectUri: "https://owner.github.io/tower/", state: "s1" }));
+test("the sign-in link asks for a small budget and one day, and names the app only when it has an App Key", () => {
+    const url = new URL(buildAuthorizeUrl({ redirectUri: "https://owner.github.io/tower/", state: "s1", appKey: "" }));
     assert.equal(url.origin + url.pathname, "https://enter.pollinations.ai/authorize");
     assert.equal(url.searchParams.get("redirect_uri"), "https://owner.github.io/tower/");
     assert.equal(url.searchParams.get("budget"), "0.5");
     assert.equal(url.searchParams.get("expiry"), "1");
     assert.equal(url.searchParams.has("client_id"), false);
+    const named = new URL(
+        buildAuthorizeUrl({ redirectUri: "https://owner.github.io/x/", state: "s1", appKey: "pk_test" }),
+    );
+    assert.equal(named.searchParams.get("client_id"), "pk_test");
     assert.equal(url.searchParams.has("permissions"), false);
 });
 
